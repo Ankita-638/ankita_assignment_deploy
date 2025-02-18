@@ -1,0 +1,29 @@
+---
+- name: Deploy Python Script
+  hosts: localhost
+  become: true
+  tasks:
+  - name: Ensure Python is installed
+    ansible.builtin.package:
+      name: python3
+      state: present
+
+  - name: Create deployment directory in Jenkins workspace
+    ansible.builtin.file:
+      path: /var/lib/jenkins/ankita_assignment_deploy
+      state: directory
+      owner: jenkins
+      group: jenkins
+      mode: '0755'
+
+  - name: Copy Python script to Jenkins workspace
+    ansible.builtin.copy:
+      src: /var/lib/jenkins/workspace/jenkins_pipeline/db_script.py
+      dest: /var/lib/jenkins/ankita_assignment_deploy/db_script.py
+      owner: jenkins
+      group: jenkins
+      mode: '0755'
+
+  - name: Run Python script
+    ansible.builtin.command:
+      cmd: python3 /var/lib/jenkins/ankita_assignment_deploy/db_script.py

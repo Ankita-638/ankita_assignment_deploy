@@ -1,0 +1,23 @@
+pipeline:
+  agent: any
+  stages:
+    - stage: "Checkout"
+      steps:
+        - script: |
+            echo "Checking out code..."
+            git clone <your-repo-url> ~/ankita_assignment_deploy
+
+    - stage: "Deploy Python Script"
+      steps:
+        - script: |
+            ansible-playbook ~/ankita_assignment_deploy/playbook.yml
+
+    - stage: "Run Chaos Testing"
+      steps:
+        - script: |
+            chaos run ~/ankita_assignment_deploy/chaos_experiment.json
+
+    - stage: "Validate Results"
+      steps:
+        - script: |
+            sqlite3 ~/ankita_assignment_deploy/users.db "SELECT * FROM users;"

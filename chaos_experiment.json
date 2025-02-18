@@ -1,0 +1,17 @@
+{
+    "version": "1.0.0",
+    "title": "Chaos Test for Python Deployment",
+    "description": "Simulate failure in the Python script execution",
+    "method": [
+      {
+        "type": "action",
+        "name": "kill_python_process",
+        "provider": {
+          "type": "process",
+          "path": "pkill",
+          "arguments": ["-f", "python3"]
+        }
+      }
+    ]
+  }
+  
